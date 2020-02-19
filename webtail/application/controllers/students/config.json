@@ -1,0 +1,77 @@
+{
+    "microservice": {
+        "name": "students",
+        "apiUrl": "localhost:80/Students/",
+        "logFiles" : "url",
+        "logDB" : "url",
+        "commonHelpers": "url",
+        "commonMiddleWares": "url",
+        "commonServices":"url",
+        "events": {
+            "commonEvents":"url",
+            "eventAPIs": [
+                {"sampleEvent":"url"},
+                {}
+            ]
+        },
+        "connectMembers" : {
+            "microserviceName": {
+                "apiName1":"url",
+                "apiName2":"url"
+
+            }
+        }
+    },
+    "shared" : {
+        "constants": {
+            "CHECKME": 12
+        }
+    },
+
+    "apis": {
+         "StudentDetailsAPI" : {
+			"inputs" : { "post" : [ "sessionId" ] },
+			"validateInputs" : { "rules" : [ "name:required|notEmpty" ] },
+            "objects" : [ "Students" ],
+            "middleware" : { "pre": ["sample"], "post": ["sample"] },
+            "state": true,
+            "async": false,
+            "views":["sample", "sample"],
+            "events": {"store":[], "retrive":[], "source":[]},
+            "analytics": true,
+            "cached": true,
+            "type": "internal",
+            "programming": ["php"],
+            "defaultLang": ["en-us"],
+            "authors": ["Rohan Tandel| 67rohan@gmail.com"],
+            "security" : ["JWT", "OAuth"],
+            "CICD": true,
+            "generateSample": true,
+            "versions": ["v1"],
+            "services": ["filters", "login"],
+            "helpers": ["sample"]
+		}
+    },
+    "tasks" : {
+        "StudentDetailsAPI": [
+            { "queue" : 0, "middlewarePre":["sample"], "middlewarePost":["sample"], "taskName" : "getUserDetailsTask", "result" : { "success" : -1, "failure" : -1 } },
+            { "queue" : 1, "middlewarePre":["sample"], "middlewarePost":["sample"], "taskName" : "setUserDetailsTask", "result" : { "success" : -1, "failure" : -1 } }
+        ]
+    },
+    "database": {
+        "connection": "filePath",
+        "dbname" : "Students",
+        "tables" : {
+                "StudentDetails" : {
+                    "_id": "number",
+                    "studentName" : "string",
+                    "_createdAt": "date",
+                    "_updatedAt": "date"
+                }
+        }
+    },
+    "statusCodes": {
+        "HTTP|401" : "Invalid input",
+        "ST|001": "error in data retrive"
+    }
+}

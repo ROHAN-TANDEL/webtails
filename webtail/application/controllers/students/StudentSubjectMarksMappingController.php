@@ -96,7 +96,7 @@ final class StudentSubjectMarksMappingController extends CI_Controller {
     public function specificMapById(string $id)
     {
         inputs([
-            'id'=>['type'=>'int','value'=>$id]
+            'id'=>['type'=>'int','value'=>$id, 'validation'=> 'required|unique|max:10000|min:0' ]
         ],$this);
 
         $this->where = ['isDeleted'=>0, 'StudentSubjectMarksMapping._id'=>$this->inputs['id']];
