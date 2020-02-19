@@ -19,9 +19,11 @@ if ( ! function_exists('inputs'))
                         if($num_length < 16) {
                             $thisClass->inputs[$keyName] = (int)$value;
                         } else {
+                            $message = "not an integer";
                             $isFailed = true; 
                         }
                     } else {
+                        $message = "not an integer";
                         $isFailed = true;
                     }
                 break;
@@ -32,16 +34,19 @@ if ( ! function_exists('inputs'))
                         if($num_length < 257) {
                             $thisClass->inputs[$keyName] = $value;
                         } else {
+                            $message = "not a string";
                             $isFailed = true; 
                         }
                     } else {
+                        $message = "not a string";
                         $isFailed = true;
                     }
                 break;
                 case 'array':
                     if(is_array($KeyDetails['value'])) {
                         $thisClass->inputs[$keyName] = (array)$KeyDetails['value'];
-                    } else {    
+                    } else {
+                        $message = "not an array";
                         $isFailed = true; 
                     }
                 break;
@@ -53,61 +58,71 @@ if ( ! function_exists('inputs'))
                     if(filter_var($value, FILTER_VALIDATE_BOOLEAN)) {
                         $thisClass->inputs[$keyName] = $value;
                     } else {
+                        $message = "not a boolean";
                         $isFailed = true;
                     }
                 default:
             }
-        }
-        if($isFailed === true) {
-            $output = 'error in paramenter not matchinng min req';
-            $thisClass->output->set_output('','faiiled','401','error in paramenter not matchinng min req');
+            if($isFailed === true) {
 
-        } 
-        if(!empty($d['validation'])) {
+                $thisClass->output->set_output('','faiiled','401',$message);
+
+            } elseif(!empty($KeyDetails['validation'])) {
             
-            $find = explode('|',$d['validation']);
-            
-            if(in_array('required', $find)) {
+                $find = explode('|',$KeyDetails['validation']);
                 
-                if(!isset($d['value'])) {
-                $isFailed = true;
-                $message = "value not set";
+                if(in_array('required', $find)) {
+                    if(!isset($KeyDetails['value'])) {
+                    $isFailed = true;
+                    $message = "value not set";
+                    }
                 }
-            }
-
-            if(in_array('notEmpty',$find)) {
-                if(empty($d['value'])){
-                $isFailed = true;
-                $message = "value empty";
-                } 
-            }
-
-            if($key = array_search('max',$find))  {
-                if( $d['value'] > $find[$key+1]) {
-                $isFailed = true;
-                $message = "value is more than the limit";
+    
+                if(in_array('notEmpty',$find)) {
+                    if(empty($KeyDetails['value'])){
+                    $isFailed = true;
+                    $message = "value empty";
+                    } 
                 }
-            }
-   
-            if($key = array_search('min',$find))  {
-                if( $d['value'] < $find[$key+1]) {
-                $isFailed = true;
-                $message = "value is less than the limit";
+    
+                if($key = array_search('max',$find))  {
+                    if( $KeyDetails['value'] > $find[$key+1]) {
+                    $isFailed = true;
+                    $message = "value is more than the limit";
+                    }
+                }
+       
+                if($key = array_search('min',$find))  {
+                    if( $KeyDetails['value'] < $find[$key+1]) {
+                    $isFailed = true;
+                    $message = "value is less than the limit";
+                    } else {
+                        echo "fale";
+                    }
+                }
+    
+                if($key = array_search('only',$find))  {
+                    $onlyVals = explode(",", $find[$key+1]);                    
+                    if(!in_array($KeyDetails['value'], $onlyVals)) {
+                    $isFailed = true;
+                    $message = "value is not matching defaults";                          
+                    }
+                }
+    
+                if($key = array_search('email',$find))  {
+                    if(!preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $KeyDetails['value'])){
+                        $isFailed = true;
+                        $message = "value is not matching defaults";                          
+                    }
+                } elseif($key = array_search('file',$find)) {
+    
                 } else {
-                    echo "fale";
-                }
-            }
-
-            if($key = array_search('only',$find))  {
-                $onlyVals = explode(",", $find[$key+1]);                    
-                if(!in_array($d['value'], $onlyVals)) {
-                $isFailed = true;
-                $message = "value is not matching defaults";                          
+                    #echo "avoid";
                 }
             }
         }
+        
         if($isFailed === true) {
-            $output = 'error in paramenter not matchinng min req';
             $thisClass->output->set_output('','faiiled','401',$message);
         }
     }

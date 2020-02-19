@@ -28,6 +28,10 @@
         }
     },
 
+    "middleware": {
+        "sample": ["StudentDetailsAPI"]
+    },
+
     "apis": {
          "StudentDetailsAPI" : {
 			"inputs" : { "post" : [ "sessionId" ] },
@@ -54,11 +58,29 @@
     },
     "tasks" : {
         "StudentDetailsAPI": [
-            { "queue" : 0, "middlewarePre":["sample"], "middlewarePost":["sample"], "taskName" : "getUserDetailsTask", "result" : { "success" : -1, "failure" : -1 } },
-            { "queue" : 1, "middlewarePre":["sample"], "middlewarePost":["sample"], "taskName" : "setUserDetailsTask", "result" : { "success" : -1, "failure" : -1 } }
+            { 
+                "queue" : 0, 
+                "middlewarePre":["sample"], 
+                "middlewarePost":["sample"], 
+                "taskName" : "getUserDetailsTask", 
+                "result" : { 
+                            "success" : -1, 
+                            "failure" : -1 
+                        } 
+            },
+            { 
+                "queue" : 1, 
+                "middlewarePre":["sample"], 
+                "middlewarePost":["sample"], 
+                "taskName" : "setUserDetailsTask", 
+                "result" : { 
+                            "success" : -1, 
+                            "failure" : -1 
+                            } 
+            }
         ]
     },
-    "database": {
+    "storage": {
         "connection": "filePath",
         "dbname" : "Students",
         "tables" : {
@@ -68,10 +90,51 @@
                     "_createdAt": "date",
                     "_updatedAt": "date"
                 }
+        },
+        "cache": {
+            "redis": {
+                "username": "",
+                "key": ""
+            }
+        }
+
+    },
+    "security": {
+        "storage": {
+            "database" : {
+                "mongodb": {
+                    "username": "",
+                    "password": ""
+                },
+                "mysql": {
+                    "username": "",
+                    "password": ""
+                }
+            },
+            "login" : {
+                "admin": {
+                    "username": "",
+                    "password": ""
+                },
+                "JWT": {
+                    "expiryTime": "5000"
+                },
+                "OAuth": {
+                    "key": "34sdklfndfj3498r5981923812jksd"
+                },
+                "aws": {
+                    "buckets": {
+                        "studentsAssets": {
+                            "key": "",
+                            "salt": ""
+                        }
+                    }
+                }
+            }
         }
     },
     "statusCodes": {
-        "HTTP|401" : "Invalid input",
+        "HTTP|401" : "http 401 error",
         "ST|001": "error in data retrive"
     }
 }

@@ -1,0 +1,75 @@
+/*Default Over rides*/
+.px-form-control-login {
+    padding : 1.5rem 0.75rem;
+    background-color: #d4f0fe;
+}
+    .page-item.active .page-link {
+        border-color: #f05d30;
+        background-color : #f05d30;
+    }
+
+/*customs*/
+.px-fill {
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    background-image: url('https://wallup.net/wp-content/uploads/2017/11/23/503458-paper-literature-books-748x468.jpg');
+}
+
+.px-blur-image {
+
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+    width: 95%;
+    position: absolute;
+    filter: blur(10px);
+    background-size: 100% 100%;
+    background-image: url('https://wallup.net/wp-content/uploads/2017/11/23/503458-paper-literature-books-748x468.jpg');
+    background-color: white;
+    margin: auto;
+}
+
+.px-height-100-perc {
+    height:100%;
+}
+
+.px-color-white {
+    color: white;
+}
+
+/*filter index*/
+
+/* .filterable {
+    margin-top: 15px;
+} */
+/* .filterable .panel-heading .pull-right {
+    margin-top: -20px;
+} */
+
+.filterable .filters input[disabled] {
+    background-color: transparent;
+    border: none;
+    cursor: auto;
+    box-shadow: none;
+    padding: 0;
+    height: auto;
+}
+.filterable .filters input[disabled]::-webkit-input-placeholder {
+    color: #333;
+}
+.filterable .filters input[disabled]::-moz-placeholder {
+    color: #333;
+}
+.filterable .filters input[disabled]:-ms-input-placeholder {
+    color: #333;
+}
+
+.px-color-orange {
+    color : #f05d30;
+}
+
+.px-bgcolor-orange {
+    background-color : #f05d30;
+}

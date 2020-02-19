@@ -55,6 +55,14 @@
  */
 	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
 
+/**
+ * json inputs format
+ */
+	$json = json_decode(trim(file_get_contents('php://input')), true);
+if(!empty($json)) {
+	$_POST = $json;
+}
+
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING

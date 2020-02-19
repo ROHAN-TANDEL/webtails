@@ -54,7 +54,11 @@ class CI_Model {
 	 * @link	https://github.com/bcit-ci/CodeIgniter/issues/5332
 	 * @return	void
 	 */
-	public function __construct() {}
+	public function __construct($class=false) {
+		if($class !== false) {
+			$this->class = $class;
+		}
+	}
 
 	/**
 	 * __get magic
@@ -71,6 +75,80 @@ class CI_Model {
 		//	saying 'Undefined Property: system/core/Model.php', it's
 		//	most likely a typo in your model code.
 		return get_instance()->$key;
+	}
+
+	public function read()
+    {
+        $query = $this->db->get($this->class);
+        return $query->result_array();
+    }
+
+    public function readCursor($start=0, $limit=1, $result=false)
+    {
+        $this->db->limit($limit, $start);
+        $query = $this->db->get($this->class);
+        if($result === true){
+            return $query->result_array();   
+        } else {
+            return $this;
+        }
+    }
+
+    public function limit($start=0, $limit=1)
+    {
+        $this->db->limit($limit, $start);
+        return $this;        
+    }
+
+    public function where(array $where)
+    {
+        $this->db->where($where);
+        return $this;
+    }
+
+    public function update(array $dataToUpdate, $result=false)
+    {
+		$value = $this->db->update($this->class, $dataToUpdate);
+        if($result === true) {
+			return $value->result_array();
+		} else {
+            return $this;
+        }
+    }
+
+    public function delete(array $dataToUpdate, $result=false) {
+		$value = $this->db->update($this->class, $dataToUpdate);
+        if($result === true) {
+			return $value->result_array();
+		} else {
+            return $this;
+        }
+    }
+
+    public function insert(array $dataToUpdate, $result=false)
+    {
+		$value =  $this->db->insert($this->class, $dataToUpdate);
+        if($result===true) {
+			return $value->result_array();
+		} else {
+            return $this;
+        }
+	}
+	
+	public function where_in($key, array $dataToUpdate, $result=false)
+	{
+		$value = $this->db->where_in($key, $dataToUpdate);
+		if($result===true) {
+			return $value; 
+        } else {
+            return $this;
+        }
+	}
+
+	public function distinct()
+	{
+		$this->db->distinct();
+		return $this;
 	}
 
 }

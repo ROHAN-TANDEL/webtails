@@ -56,7 +56,7 @@ final class StudentSubjectMarksMappingController extends CI_Controller {
         output(readByJoins($this),'success','SM001');
     }
 
-        /**
+    /**
      * DeleteMapById 
      *  to delete mapping of student subject and marks soft delete
      *  changes flag isDelete to true
@@ -74,16 +74,15 @@ final class StudentSubjectMarksMappingController extends CI_Controller {
                         ->where(['_id'=>$id])
                         ->update(['isDeleted'=>1]);
 
+        $status = 'success';
+        $code = 'SM001';
         if($output === true) {
-            $status = 'success';
-            $code = 'SM001';
             $message = 'data deleted';
         } else {
-            $status = 'success';
-            $code = 'SM001';
             $message = 'data not deleted';
         }
-        $output = [['id'=>$id]];
+
+        $output = [ [ 'id' => $id ] ];
         output($output, $status, $code, $message);
     }
 
