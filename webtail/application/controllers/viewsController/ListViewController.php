@@ -12,7 +12,7 @@ final class ListViewController extends CI_Controller {
         parent::__construct();
         $this->load->helper('url');
         $this->load->helper('form');
-        $this->load->helper( ['inputs', 'joins','students','output','apisCall'] );
+
         $this->load->controller( ['students\StudentSubjectMarksMappingController']);
     }
 

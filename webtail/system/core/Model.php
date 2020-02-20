@@ -58,6 +58,7 @@ class CI_Model {
 		if($class !== false) {
 			$this->class = $class;
 		}
+//		return $this;
 	}
 
 	/**
@@ -125,19 +126,48 @@ class CI_Model {
         }
     }
 
-    public function insert(array $dataToUpdate, $result=false)
+	public function insert_batch(array $dataToUpdate, $result=false)
     {
-		$value =  $this->db->insert($this->class, $dataToUpdate);
+		$value =  $this->db->insert_batch($this->class, $dataToUpdate);
         if($result===true) {
 			return $value->result_array();
 		} else {
             return $this;
         }
 	}
+
+    public function insert(array $dataToUpdate, $result=false)
+    {
+		$value =  $this->db->insert($this->class, $dataToUpdate);
+        if($result===true) {
+			return $value->result_array();
+		} else {
+            return $this->where(["_id"=>$this->db->insert_id()])->read();
+        }
+	}
+
+	public function upsert(array $cond, array $dataToUpdate, $result=false)
+    {
+		$data = $this->where($cond)->read();
+		if(empty($data)) {
+			$data = $this->insert($dataToUpdate, $result);
+		}
+		return $data;
+	}
 	
 	public function where_in($key, array $dataToUpdate, $result=false)
 	{
 		$value = $this->db->where_in($key, $dataToUpdate);
+		if($result===true) {
+			return $value; 
+        } else {
+            return $this;
+        }
+	}
+
+	public function where_not_in($key, array $dataToUpdate, $result=false)
+	{
+		$value = $this->db->where_not_in($key, $dataToUpdate);
 		if($result===true) {
 			return $value; 
         } else {

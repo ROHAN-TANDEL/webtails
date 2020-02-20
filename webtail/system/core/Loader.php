@@ -667,9 +667,8 @@ class CI_Loader {
 	 * @param	string|string[]	$controllers	Helper name(s)
 	 * @return	object
 	 */
-	public function controller($controllers, $name = '', $db_conn = FALSE)
+	public function controller($model, $name = '', $db_conn = FALSE)
 	{
-		$model = $controllers ;
 		if (empty($model))
 		{
 			return $this;
@@ -691,7 +690,7 @@ class CI_Loader {
 		{
 			// The path is in front of the last slash
 			$path = substr($model, 0, ++$last_slash);
-
+			$path = str_replace("\\","/",$path);
 			// And the model name behind it
 			$model = substr($model, $last_slash);
 		}
@@ -1509,6 +1508,12 @@ class CI_Loader {
 		if (isset($autoload['model']))
 		{
 			$this->model($autoload['model']);
+		}
+
+		// Autoload controllers
+		if (isset($autoload['controller']))
+		{
+			$this->controller($autoload['controller']);
 		}
 	}
 

@@ -6,7 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * Author: Rohan Tandel
  * API Versions: V1
  */
-final class StudentsDetailsController extends CI_Controller {
+final class MappingController extends CI_Controller {
 
     /**
      * construct function

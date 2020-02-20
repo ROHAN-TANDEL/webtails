@@ -541,6 +541,19 @@ if ( ! is_php('5.4'))
  */
 	$EXT->call_hook('post_controller');
 
+	function failed()
+	{
+		/*
+		* ------------------------------------------------------
+		*  Instantiate the output class
+		* ------------------------------------------------------
+		*/
+		$OUT =& load_class('Output', 'core');
+		$OUT->_display();
+		_shutdown_handler();
+		exit();
+
+	}
 /*
  * ------------------------------------------------------
  *  Send the final rendered output to the browser
